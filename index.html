@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Katherine Jasmin</title>
+    <style>
+        :root {
+            --pink-dark: #ff85a2;
+            --pink-light: #ffb3c1;
+            --pink-paper: #fff0f3;
+            --accent: #d90429;
+            --skin: #ffdbac;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffe5ec;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow: hidden;
+        }
+
+        .stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- PERSONAJE ANIMADO --- */
+        .character {
+            position: absolute;
+            bottom: 10%;
+            left: -150px;
+            width: 80px;
+            height: 120px;
+            z-index: 10;
+            animation: walkIn 6s ease-in-out forwards;
+        }
+
+        .head { width: 40px; height: 40px; background: var(--skin); border-radius: 50%; margin: 0 auto; }
+        .body-shape { width: 50px; height: 70px; background: #4cc9f0; border-radius: 20px 20px 5px 5px; margin: -5px auto 0; position: relative; }
+        .arm { width: 35px; height: 12px; background: var(--skin); position: absolute; right: -15px; top: 15px; transform-origin: left; animation: throwAction 0.8s 2.5s ease-in; }
+
+        @keyframes walkIn {
+            0% { left: -150px; }
+            20% { left: 10%; }
+            45% { left: 10%; transform: scaleX(1); }
+            75% { left: 10%; transform: scaleX(-1); }
+            100% { left: -150px; }
+        }
+
+        @keyframes throwAction {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-80deg); }
+            100% { transform: rotate(30deg); }
+        }
+
+        /* --- CARTA RESPONSIVA --- */
+        .card-box {
+            position: absolute;
+            width: 90%; /* Ajuste para móviles */
+            max-width: 320px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: reveal 0.1s 2.8s forwards, orbitAndCenter 2.5s 2.8s cubic-bezier(0.39, 0.57, 0.56, 1) forwards;
+        }
+
+        @keyframes reveal { to { opacity: 1; } }
+
+        @keyframes orbitAndCenter {
+            0% { transform: translate(-40vw, 50px) rotate(0deg) scale(0.3); }
+            100% { transform: translate(0, 0) rotate(1080deg) scale(1); }
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: var(--pink-dark);
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: float 3s 5.5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 4;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 100px solid var(--pink-dark);
+            transform-origin: top;
+            transition: transform 0.5s 0.2s;
+        }
+
+        /* Adaptación de los bordes del sobre para que no se rompan en móviles */
+        @media (max-width: 400px) {
+            .envelope::before { border-left-width: 145px; border-right-width: 145px; }
+        }
+
+        .envelope::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            z-index: 3;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 100px solid var(--pink-light);
+        }
+
+        @media (max-width: 400px) {
+            .envelope::after { border-left-width: 145px; border-right-width: 145px; }
+        }
+
+        /* --- LA HOJA CON TU DEDICATORIA --- */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: var(--pink-paper);
+            z-index: 2;
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            overflow-y: auto; /* Permite scroll si el texto es muy largo en pantallas pequeñas */
+        }
+
+        .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
+
+        .envelope.open .letter {
+            transform: translateY(-130px);
+            height: 300px; /* Más alto para que quepa todo tu texto */
+            z-index: 5;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .heart-seal {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            z-index: 6;
+            transition: 0.3s;
+        }
+
+        .envelope.open .heart-seal { opacity: 0; }
+
+        .instruction {
+            position: absolute;
+            bottom: 8%;
+            color: var(--accent);
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 1s 6s forwards;
+            text-align: center;
+            width: 100%;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="stage">
+        <div class="character">
+            <div class="head"></div>
+            <div class="body-shape"><div class="arm"></div></div>
+        </div>
+
+        <div class="card-box">
+            <div class="envelope" id="envelope">
+                <div class="letter">
+                    <h3 style="color:var(--accent); margin:0 0 8px 0; font-size: 1.1rem;">¡Feliz día de la mujer, cuatro ojos!</h3>
+                    <p style="font-size: 0.85rem; color: #444; line-height: 1.4; margin: 0;">
+                        Quería decirte que no solo admiro tu <br>
+                        increíble talento y dedicación, <br>
+                        por tu luz y por inspirar <br>
+                        sino que también hay algo en tu forma <br>
+                        de ser que me llama mucho la atención. <br><br>
+                        Eres una mujer brillante y única. <br><br>
+                        <strong>Katherine Jasmin Conislla</strong>
+                    </p>
+                </div>
+                <div class="heart-seal">❤️</div>
+            </div>
+        </div>
+
+        <div class="instruction">Toca la carta para abrirla</div>
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
